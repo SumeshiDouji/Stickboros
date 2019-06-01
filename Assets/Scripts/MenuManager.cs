@@ -28,6 +28,7 @@ public class MenuManager : MonoBehaviour {
     // ゲームオーバー時のリトライなど
     public void BackToPreviousScene()
     {
+        HalfFlagReset();
         Time.timeScale = 1f;
         GameManager.Instance.ChangeScene(GameManager.Instance.PreviousScene);
     }
@@ -39,15 +40,8 @@ public class MenuManager : MonoBehaviour {
     }
     public void Stage11()
     {
+        HalfFlagReset();
         GameManager.Instance.ChangeScene("Stage1-1");
-    }
-    public void Stage12()
-    {
-        GameManager.Instance.ChangeScene("Stage1-2");
-    }
-    public void Stage13()
-    {
-        GameManager.Instance.ChangeScene("Stage1-3");
     }
     public void Continue()
     {
@@ -55,5 +49,10 @@ public class MenuManager : MonoBehaviour {
         AudioManager.Instance.PlaySE(AUDIO.SE_PAUSEEXIT);
         Time.timeScale = 1f;
         SceneManager.UnloadSceneAsync("Scene/Pause");
+    }
+    private void HalfFlagReset()
+    {
+        GameManager.Instance.HalfFlagNum = -1;
+        GameManager.Instance.isHalfFlag = false;
     }
 }

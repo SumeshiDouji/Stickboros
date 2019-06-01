@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour {
     GameObject player;
     Player playersc;
 
+    float x, y;
     float smoothTime = 0.3f;
     Vector3 velocity = Vector3.zero;
 
@@ -14,6 +15,12 @@ public class CameraController : MonoBehaviour {
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
         playersc = player.GetComponent<Player>();
+        //中間ポイントを取ってるなら中間地点からスタート
+        if (GameManager.Instance.isHalfFlag)
+        {
+            Debug.Log(GameManager.Instance.HalfPosition);
+            transform.position = new Vector3(GameManager.Instance.HalfPosition.x,transform.position.y,transform.position.z);
+        }
     }
 	
 	// Update is called once per frame
@@ -21,7 +28,6 @@ public class CameraController : MonoBehaviour {
         playerdead = playersc.Dead;
         if (playerdead==false)
         { 
-            float x, y;
             // 制限範囲よりも外ならカメラを動かさない、逆ならばカメラを動かす
             if (player.transform.position.x < 0)
             {

@@ -22,17 +22,20 @@ public class BlockController : MonoBehaviour {
     public Sprite Fly1;
     public Sprite Fly2;
     public GameObject[] Item;
-    [SerializeField]
     GameObject brokenob;
+
+    //元の位置
+    Vector3 OriginPosition;
 
     int ItemNum;
     // Use this for initialization
     void Start () {
+        OriginPosition = transform.position;
         MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        brokenob = Resources.Load("Prefab/BoxBroken")as GameObject;
         if (canFly)
         {
             StartCoroutine("Turn");
-
         }
     }
 	
@@ -126,10 +129,9 @@ public class BlockController : MonoBehaviour {
     // 空のボックスの反応(壊せないとき)
     IEnumerator EmptyReac()
     {
-        Vector3 OriginPosition = transform.position;
         AudioManager.Instance.PlaySE(AUDIO.SE_EMPTYBOX);
         transform.Translate(0, 0.1f, 0);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         transform.position = OriginPosition;
     }
     // ブロックを破壊されるとき

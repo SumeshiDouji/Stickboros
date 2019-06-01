@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 61578464267265486}
   m_Layer: 8
   m_Name: FlyBox
-  m_TagString: FlyGround
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,9 +40,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4858707769100900}
   - component: {fileID: 61269526307347974}
+  - component: {fileID: 114162688657285140}
   m_Layer: 8
   m_Name: FlyGround
-  m_TagString: FlyGround
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1771459049464542}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4958097480713292}
@@ -67,8 +68,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1471307154971318}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -36.64106, y: 2.354349, z: 0.328125}
-  m_LocalScale: {x: 0.8, y: 0.9, z: 1}
+  m_LocalPosition: {x: 1.91, y: -1.17, z: 0.328125}
+  m_LocalScale: {x: 0.9, y: 1, z: 1}
   m_Children:
   - {fileID: 4858707769100900}
   m_Father: {fileID: 0}
@@ -103,10 +104,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1319164, y: 0.3701166}
+  m_Offset: {x: -0.14, y: -0.07}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -117,7 +118,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5302408, y: 0.11409068}
+  m_Size: {x: 1.5, y: 0.1}
   m_EdgeRadius: 0
 --- !u!61 &61362110639156378
 BoxCollider2D:
@@ -131,7 +132,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.14048696, y: -0.13577165}
+  m_Offset: {x: -0.14, y: -0.14}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -142,7 +143,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5090823, y: 1.0163896}
+  m_Size: {x: 1.5, y: 1}
   m_EdgeRadius: 0
 --- !u!61 &61578464267265486
 BoxCollider2D:
@@ -169,6 +170,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4215362, y: 0.09544873}
   m_EdgeRadius: 0
+--- !u!114 &114162688657285140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1771459049464542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6956e3dadfea72d4dab5f3a2ca712a8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114264172331231280
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,12 +202,7 @@ MonoBehaviour:
   Fly1: {fileID: 21300004, guid: d77fc8ec8c340944c9b43733df6fabc4, type: 3}
   Fly2: {fileID: 21300006, guid: d77fc8ec8c340944c9b43733df6fabc4, type: 3}
   Item:
-  - {fileID: 1431140849572562, guid: ff3f7c4442886ff40b155b287e296ee1, type: 2}
-  - {fileID: 1485964107911610, guid: 9bfd5884ef77666448be423eb53aefe5, type: 2}
-  - {fileID: 1084868597303384, guid: 27828a182a9e2b44389e1234ed3e1e9c, type: 2}
-  - {fileID: 1723287291333594, guid: d37033d45bedfbd40bf6b253d2ad87cb, type: 2}
-  - {fileID: 1554449873256000, guid: 348634cd3fa4a3c488bc2c7dd12c90da, type: 2}
-  brokenob: {fileID: 0}
+  - {fileID: 1864043403391536, guid: 1ab7df9e49085dc4ca682cf71a870d2a, type: 2}
 --- !u!212 &212484812937407822
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -229,7 +236,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1165145049
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300004, guid: d77fc8ec8c340944c9b43733df6fabc4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

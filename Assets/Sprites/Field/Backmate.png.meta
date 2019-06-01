@@ -4,6 +4,10 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: Backmate_0
     21300002: Backmate_1
+    21300004: Backmate_2
+    21300006: Backmate_3
+    21300008: Backmate_4
+    21300010: Backmate_5
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -109,7 +113,7 @@ TextureImporter:
         width: 185
         height: 82
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -122,6 +126,62 @@ TextureImporter:
         y: 595
         width: 175
         height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Backmate_2
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 589
+        width: 442
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Backmate_3
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 372
+        width: 445
+        height: 169
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Backmate_4
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 379
+        width: 327
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Backmate_5
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 182
+        width: 481
+        height: 121
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

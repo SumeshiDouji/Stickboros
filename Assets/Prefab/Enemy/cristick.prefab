@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 212753475196056854}
   - component: {fileID: 95927731348273030}
   - component: {fileID: 50713650115536174}
-  - component: {fileID: 114577916326827076}
   - component: {fileID: 61075740453972180}
+  - component: {fileID: 114577916326827076}
   m_Layer: 13
   m_Name: cristick
   m_TagString: Enemy
@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1663836382910354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.9, y: 2.553569, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -76,18 +76,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.013495445, y: -0.26416916}
+  m_Offset: {x: -0.0009791702, y: -0.115839064}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.37, y: 1.09}
+    oldSize: {x: 0.53, y: 0.43}
     newSize: {x: 1.37, y: 1.09}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3009, y: 0.42502642}
+  m_Size: {x: 0.5237955, y: 0.17263421}
   m_EdgeRadius: 0
 --- !u!95 &95927731348273030
 Animator:
@@ -123,9 +123,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   CanDepressed: 1
-  Level: 0
   EnemyDead: 0
+  HP: 100
+  Level: 3
+  Not_move: 0
+  hasnot_hp: 0
+  honoo: 0
+  BulletH: {fileID: 0}
   CanEat: 0
+  CharactorNumber: 0
 --- !u!212 &212753475196056854
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -158,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 627639909
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d7b06f7280c01ad4999f80bd83d0c069, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

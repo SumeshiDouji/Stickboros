@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GSManager : MonoBehaviour {
-
+    [SerializeField]
+    int StageNumber;
+    string BGMName;
     // リトライする前のコイン
     public static int Prevcoin;
 
@@ -14,24 +16,21 @@ public class GSManager : MonoBehaviour {
         {
             SceneManager.LoadSceneAsync("Scene/GameUI", LoadSceneMode.Additive);
         }
+        switch (StageNumber)
+        {
+            case 0:
+                BGMName = AUDIO.BGM_GRSTAGEBATTLE;
+                break;
+            case 2:
+                BGMName = AUDIO.BGM_MOUNTAINSTAGE;
+                break;
+        }
         //BGM再生。AUDIO.BGM_BATTLEがBGMのファイル名
-        AudioManager.Instance.PlayBGM(AUDIO.BGM_FORESTBATTLE, AudioManager.BGM_FADE_SPEED_RATE_HIGH);
+        AudioManager.Instance.PlayBGM(BGMName, AudioManager.BGM_FADE_SPEED_RATE_HIGH);
     }
 
     void Start()
     {
         Prevcoin = GameManager.Instance.coin;
-        TouchEventHandler.Instance.onPress += OnPress;
-    }
-    private void OnPress(bool isPressed)
-    {
-        if (isPressed)
-        {
-            Debug.Log("タップされた！");
-        }
-        else
-        {
-            Debug.Log("タップ終わった！");
-        }
     }
 }

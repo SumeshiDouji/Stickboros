@@ -12,12 +12,21 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [HideInInspector]
     public int coin = 0;
     [HideInInspector]
-    public int EnemyDamege;
+    public int EnemyDamage;
+    [HideInInspector]
+    public bool isHalfFlag = false;
+    [HideInInspector]
+    public int HalfFlagNum;
+    [HideInInspector]
+    public Vector3 HalfPosition;
     [HideInInspector]
     // 前のシーン格納、とりあえず初期値はタイトル画面
     public string PreviousScene="Scene/Title";
-	// Use this for initialization
-	void Start () {
+    private GameObject damageUI;
+    // Use this for initialization
+    void Start () {
+
+        damageUI = Resources.Load("Prefab/EnemyDamage") as GameObject;
         //　シーンが遷移しても消えないように
         DontDestroyOnLoad(this);
     }
@@ -82,8 +91,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         }
         SceneManager.LoadScene(sceneName);
     }
-    public void AttackedDamage(int AmountOfDamage)
+    public void AmountOfDamage(int Damage,Vector3 DamagedPosition)
     {
-        EnemyDamege = AmountOfDamage;
+        // 取得したダメージを共有用へ
+        EnemyDamage = Damage;
+        GameObject.Instantiate(damageUI, DamagedPosition, transform.rotation);
     }
 }

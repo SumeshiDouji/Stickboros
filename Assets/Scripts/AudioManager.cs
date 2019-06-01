@@ -31,7 +31,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     //BGM用、SE用に分けてオーディオソースを持つ
     private AudioSource _bgmSource;
-    private List<AudioSource> _seSourceList;
+    private  List<AudioSource> _seSourceList;
     private const int SE_SOURCE_NUM = 10;
 
     //全AudioClipを保持
@@ -105,7 +105,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     /// <summary>
     /// 指定したファイル名のSEを流す。第二引数のdelayに指定した時間だけ再生までの間隔を空ける
     /// </summary>
-    public void PlaySE(string seName = AUDIO.SE_BUTTON, float delay = 0.0f)
+    public void PlaySE(string seName = AUDIO.SE_RELOAD, float delay = 0.0f)
     {
         if (!_seDic.ContainsKey(seName))
         {
@@ -219,5 +219,4 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
         PlayerPrefs.SetFloat(BGM_VOLUME_KEY, BGMVolume);
         PlayerPrefs.SetFloat(SE_VOLUME_KEY, SEVolume);
     }
-
 }

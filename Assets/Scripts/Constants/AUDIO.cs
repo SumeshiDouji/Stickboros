@@ -7,16 +7,18 @@ public static class AUDIO
     public const string BGM_FORESTBATTLE = "UnlostForest";
     public const string BGM_BOSSBATTLE = "Sinsoeisha";
     public const string BGM_OPTION = "little-archemist";
+    public const string BGM_MOUNTAINSTAGE = "Kokubourou";
 
     public const string SE_COIN = "Coin";
     public const string SE_LEVELDOWN = "LevelDown";
     public const string SE_LEVELUP = "LevelUp";
-    public const string SE_BUTTON = "LevelUp";
+    public const string SE_LEVELDOWN_ENEMY = "LevelDown_enemy";
+    public const string SE_LEVELUP_ENEMY = "LevelUp_enemy";
     public const string SE_JUMP = "Jump";
     public const string SE_ENEMYJUMP = "EnemyJump";
     public const string SE_STUPID = "stupid1";
     public const string SE_SHOT = "shot";
-    public const string SE_SHOTSWITCH = "GunSwitching";
+    public const string SE_APLOAD = "GunSwitching";
     public const string SE_RELOAD = "reload";
     public const string SE_DEAD = "dead";
     public const string SE_PRESS = "pressjump";
@@ -24,8 +26,10 @@ public static class AUDIO
     public const string SE_ITEMOUT = "ItemOut";
     public const string SE_EMPTYBOX = "EmptyBlock";
     public const string SE_KAIFUKU = "kaifuku";
+    public const string SE_KAIFUKU_ENEMY = "kaifuku_enemy";
     public const string SE_DIVING = "diving";
     public const string SE_PAUSESCREEN = "PauseScreen";
     public const string SE_PAUSEEXIT = "PauseExit";
     public const string SE_BOXBREAK = "boxbreak";
+    public const string SE_HALFFLAG = "HalfFlag";
 }

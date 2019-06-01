@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed0b2690c15c5fd4a8d0e4ba81ac5cf0, type: 3}
+  m_Name: EnemyStatusData
+  m_EditorClassIdentifier: 
+  EnemyStatusList:
+  - Name: "\u30AF\u30EA"
+    HP: 500
+    ATK: 0
+    DEF: 0
+    SP: 0
+    EXP: 0
+    IsBoss: 0
+    CanEat: 0
+    CanDepressed: 1
+  - Name: "\u30B1\u30A4\u30E0"
+    HP: 1000
+    ATK: 0
+    DEF: 0
+    SP: 0
+    EXP: 0
+    IsBoss: 0
+    CanEat: 1
+    CanDepressed: 1
+  - Name: "\u30DC\u30A6"
+    HP: 800
+    ATK: 0
+    DEF: 0
+    SP: 0
+    EXP: 0
+    IsBoss: 0
+    CanEat: 1
+    CanDepressed: 1

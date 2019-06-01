@@ -34,12 +34,8 @@ public class Player : MonoBehaviour {
     readonly int JumpNumLim = 2;
 
     // 素早さ
-    float speed = 100;
-
-    // 素早さ上限用
-    float speedx;
-    float maxwalkspeed=4.0f;
-    float maxrunspeed = 8.0f;
+    float speed;
+    float speedwardvalue = 5;
 
     // ショットできる回数
     int ShotCanNum = 6;
@@ -56,6 +52,7 @@ public class Player : MonoBehaviour {
     public float BulletSpeed = 1f;
 
     // 接地判定
+    [HideInInspector]
     public LayerMask groundLayer;
 
     // ボタン操作判定
@@ -67,12 +64,15 @@ public class Player : MonoBehaviour {
     [HideInInspector]
     public bool isUpbutton = false;
     bool isMovebutton = false;
+    [HideInInspector]
     public bool isJumpbutton=false;
     bool isShotbutton=false;
     bool isRun = false;
-    bool ShotSwitch = false;
+    [HideInInspector]
+    public bool ShotSwitch = false;
     bool isFall = false;
-    bool isRide = false;
+    [HideInInspector]
+    public bool isRide = false;
     bool isDrive = false;
 
     bool ShotPause;
@@ -92,6 +92,9 @@ public class Player : MonoBehaviour {
     bool isGround=false;
     // 地面にタッチしたか
     bool isGroundTouch = false;
+
+    // 動く床用
+    private BoxCollider2D FlyGround;
 
     public LayerMask layerMask;
 
@@ -120,6 +123,8 @@ public class Player : MonoBehaviour {
         ShotNum = ShotCanNum;
         Time.timeScale = 1f;
 
+        //中間ポイントを取ってるなら中間地点からスタート
+        if (GameManager.Instance.isHalfFlag) this.transform.position = GameManager.Instance.HalfPosition;
     }
     /*---------------------------------------------------------------------------------------------------------------
      -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
@@ -132,28 +137,13 @@ public class Player : MonoBehaviour {
     {
         if (Dead == false)
         {
-            //デバッグ用
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                rigid2d.velocity = Vector3.zero;
-                transform.Translate(-5, 5, 0);
-            }
-            //デバッグ用
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                rigid2d.velocity=Vector3.zero;
-                transform.Translate(5, 5, 0);
-            }
-            if (Input.GetKey(KeyCode.Z))PlayerShoot();
-            if (Input.GetKey(KeyCode.A))RunButton();
-            if (Input.GetKeyUp(KeyCode.A)) noRunButton();
-            if (Input.GetKeyDown(KeyCode.S)) JumpMove();
-            if (Input.GetKeyUp(KeyCode.S))noJump();
+
             // 落ちているかどうかの判定
             if (rigid2d.velocity.y < -2 && isRide == false|| rigid2d.velocity.y > 2 && isRide == false) isFall = true;
             else isFall = false;
+
             // キー操作用
-            if (_joystick.Position.x > 0) // 右に動かすとき
+            if (_joystick.Position.x > 0 || Input.GetAxis("Horizontal") > 0) // 右に動かすとき
             {
                 isMovebutton = true;
                 // プレイヤーの向きは→
@@ -163,7 +153,7 @@ public class Player : MonoBehaviour {
                 }
                 p_direction = 1;
             }
-            else if (_joystick.Position.x < 0) // 左に動かすとき
+            else if (_joystick.Position.x < 0 || Input.GetAxis("Horizontal") < 0) // 左に動かすとき
             {
                 isMovebutton = true;
                 // プレイヤーの向きは←
@@ -177,37 +167,51 @@ public class Player : MonoBehaviour {
             {
                 isMovebutton = false;
             }
-            // 方向キーを動かすなら
-            if (isMovebutton)
+
+            /*----------------------------
+              ボタンを実行したときの操作
+            -----------------------------*/
+
+            // 
+            // 運転してないなら
+            if (!isDrive)
             {
-                // 乗り物に乗ってないなら
-                if (isDrive == false)
+                // 方向キーを動かすなら
+                if (isMovebutton)
                 {
-                    // ifで比較するために絶対値として設定
-                    speedx = Mathf.Abs(this.rigid2d.velocity.x);
-                    if (speedx < this.maxwalkspeed * Mathf.Abs(_joystick.Position.x) && isRun == false)
+                    // 走るときのスピード
+                    if (isRun && speed <= speedwardvalue * 2)
                     {
-                        Debug.Log("あ");
-                        rigid2d.AddForce(transform.right * speed);//p_direction * speed);
+                        speed += 0.4f;
                     }
-                    if (speedx < this.maxrunspeed && isRun)
+                    // 歩くときのスピード
+                    else if (isRun == false && speed <= speedwardvalue)
                     {
-                        Debug.Log("い");
-                        rigid2d.AddForce(transform.right * speed);//p_direction * speed);
+                        speed += 0.2f;
+                    }
+                    else
+                    {
+                        speed -= 0.5f;
                     }
                 }
-            }
-            
-            //パソコン用ここまで
-            // ボタンを実行したときの操作
-            // 走るときのスピード
-            if (isRun && speed != 200)
-            {
-                speed = 200;
-            }
-            else if (isRun == false && speed != 100f)
-            {
-                speed = 100;
+                else if(speed > 0)
+                {
+                    speed -= 0.5f;
+                }
+                else if(speed < 0)
+                {
+                    speed = 0;
+                }
+
+                if (Input.GetAxis("Horizontal") == 0)
+                {
+                    transform.Translate(speed * p_direction * _joystick.Position.x * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    transform.Translate(speed * p_direction * Input.GetAxis("Horizontal") * Time.deltaTime, 0, 0);
+                }
+                
             }
             // 回数を超えていないならジャンプボタンでジャンプ
             if (isJumpbutton && JumpNum <= JumpNumLim)
@@ -224,6 +228,7 @@ public class Player : MonoBehaviour {
             {
                 isGround = false;
             }
+            
             // ジャンプ回数リセット
             if (isGround)
             {
@@ -235,9 +240,9 @@ public class Player : MonoBehaviour {
                 anim.SetBool("Shoot", isShotbutton);
             }
             // ジャンプ攻撃
-            if (Level > 0)
+            if (Level > 1 )
             {
-                hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, layerMask);
+                hit = Physics2D.Raycast(transform.position, Vector2.down, 15.5f, layerMask);
             }
             else
             {
@@ -245,9 +250,10 @@ public class Player : MonoBehaviour {
             }
             if (hit.collider != null)
             {
-                if (hit.collider.gameObject.GetComponent<SmallEnemy>().CanDepressed == true)
+                // 踏むことが可能ならば
+                if (hit.collider.gameObject.GetComponent<Enemy>().CanDepressed == true)
                 {
-                    hit.collider.gameObject.GetComponent<SmallEnemy>().Attacked(100);
+                    hit.collider.gameObject.GetComponent<Enemy>().Attacked(500,-1);
                     JumpPress();
                 }
             }
@@ -255,26 +261,49 @@ public class Player : MonoBehaviour {
             Anim();
         }
     }
+    // 入力関連用
     void Update ()
     {
-        if (transform.position.y < -10 && Dead == false)
+        if (Dead == false)
         {
-            StartCoroutine("DeadPlayer");
+            //デバッグ用
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                rigid2d.velocity = Vector3.zero;
+                transform.Translate(-5, 5, 0);
+            }
+            //デバッグ用
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                rigid2d.velocity = Vector3.zero;
+                transform.Translate(5, 5, 0);
+            }
+            if (Input.GetKey(KeyCode.Z)) PlayerShoot();
+            if (Input.GetKey(KeyCode.C)) RunButton();
+            if (Input.GetKeyUp(KeyCode.C)) noRunButton();
+            if (Input.GetKeyDown(KeyCode.UpArrow)) JumpMove();
+            if (Input.GetKeyUp(KeyCode.UpArrow)) noJump();
+            //パソコン用ここまで
+            if (transform.position.y < -10)
+            {
+                StartCoroutine("DeadPlayer");
+            }
         }
 
     }
-/*---------------------------------------------------------------------------------------------------------------
- -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
- -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
- -　　　　　　　　　　　　　　　　　　　　　　〇入力関連　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
- -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
- -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
- ---------------------------------------------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------
+     -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
+     -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
+     -　　　　　　　　　　　　　　　　　　　　　　〇入力関連　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
+     -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
+     -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
+     ---------------------------------------------------------------------------------------------------------------*/
+
     // ジャンプボタン押してるとき
     public void JumpMove()
     {
         if (Dead == false && isShotbutton == false && Time.timeScale != 0)
-        {
+        { 
             if (Underwater || Floating)
             {
                 // ジャンプ音
@@ -329,7 +358,7 @@ public class Player : MonoBehaviour {
         if (Dead == false && Time.timeScale != 0)
         {
             ShotSwitch = !ShotSwitch;
-            AudioManager.Instance.PlaySE(AUDIO.SE_SHOTSWITCH);
+            AudioManager.Instance.PlaySE(AUDIO.SE_APLOAD);
         }
     }
     // リロード
@@ -407,7 +436,7 @@ public class Player : MonoBehaviour {
         //Animatorへパラメーターを送る
         //anim.SetFloat
         anim.SetBool("isGround", isGround);
-        anim.SetBool("Walk", isMovebutton && isRide==false);
+        anim.SetBool("Walk", isMovebutton && isDrive==false);
         anim.SetBool("Jump", isJumpbutton || isFall);
         anim.SetBool("Shoot", isShotbutton);
         anim.SetBool("Run", isRun && isMovebutton && isRide==false);
@@ -454,7 +483,7 @@ public class Player : MonoBehaviour {
     {
         string layerName = LayerMask.LayerToName(collision.gameObject.layer);
         Debug.Log(layerName);
-        if (collision.gameObject.tag == ("Enemy")||collision.gameObject.tag == ("PlayerBullet"))
+        if (layerName == ("Enemy") && !Dead)
         {
             DeadorAlive();
         }
@@ -462,11 +491,11 @@ public class Player : MonoBehaviour {
         {
             isGroundTouch = true;
         }
-
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
         string layerName = LayerMask.LayerToName(collision.gameObject.layer);
+
         // アイテム取得時
         if (collision.gameObject.tag == ("TastyMush"))
         {
@@ -507,11 +536,6 @@ public class Player : MonoBehaviour {
             Destroy(collision.gameObject);
         }
         // 羽ブロックや乗り物
-        if (collision.gameObject.tag == ("FlyGround"))
-        {
-            isRide = true;
-            transform.parent = collision.gameObject.transform;
-        }
         if (collision.gameObject.tag == ("Ship"))
         {
             isRide = true;
@@ -537,21 +561,23 @@ public class Player : MonoBehaviour {
     }
     void OnTriggerStay2D(Collider2D collision)
     {
+        // 羽ブロックや乗り物
+        if (collision.gameObject.tag == ("Ship") && !isDrive)
+        {
+            isRide = true;
+            isDrive = true;
+            transform.parent = collision.gameObject.transform;
+        }
         // 土管ワープ処理
-        if(collision.gameObject.tag == ("PIPE") && isCDownbutton)
+        if (collision.gameObject.tag == ("PIPE") && isCDownbutton)
         {
             transform.position = new Vector3(250, 5, 0);
         }
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        string layerName = LayerMask.LayerToName(collision.gameObject.layer);
         transform.parent = null;
-        // 羽ブロックや乗り物から離れる
-        if (collision.gameObject.tag == ("FlyGround"))
-        {
-            isRide = false;
-        }
+        string layerName = LayerMask.LayerToName(collision.gameObject.layer);
         if (collision.gameObject.tag == ("Ship"))
         {
             isRide = false;
@@ -586,8 +612,7 @@ public class Player : MonoBehaviour {
             AudioManager.Instance.PlaySE(AUDIO.SE_PRESS);
             // yの加速度をリセットする
             rigid2d.velocity = new Vector2(rigid2d.velocity.x, 0);
-            // ジャンプボタンはONの状態
-            //isJumpbutton = true;
+
             // 加速度を加える
             this.rigid2d.AddForce(transform.up * jumpforce * 5);
             // コルーチンを呼び出す
@@ -619,7 +644,7 @@ public class Player : MonoBehaviour {
 /*---------------------------------------------------------------------------------------------------------------
  -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
  -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
- -　　　　　　　　　　　　　　　　　　　　　　〇死亡判定　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
+ -　　　　　　　　　　　　　　　　　　　　　　〇死亡判定と死亡演出　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
  -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
  -　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　-
  ---------------------------------------------------------------------------------------------------------------*/
@@ -641,28 +666,31 @@ public class Player : MonoBehaviour {
     // Playerが死んだときの挙動
     IEnumerator DeadPlayer()
     {
-        //anim.SetTrigger("Dead");
-        GameManager.Instance.playerdead = true;
-        //Playerは死んだ状態
-        Dead = true;
-        // BGMを停める
-        AudioManager.Instance.StopBGM();
-        // 死亡時SEを鳴らす
-        AudioManager.Instance.PlaySE(AUDIO.SE_DEAD);
-        //物理挙動を一時的になくす
-        rigid2d.velocity = Vector3.zero;
-        rigid2d.isKinematic = true;
-        //Playerのレイヤーをすり抜けるレイヤーに変更
-        gameObject.layer = LayerMask.NameToLayer("dead");
-        //死んだときのアニメーションに設定
-        anim.SetBool("Dead", Dead);
-        yield return new WaitForSeconds(0.1f);
-        //物理挙動を許可する
-        rigid2d.isKinematic = false;
-        //ジャンプ
-        this.rigid2d.AddForce(transform.up * 1000);
-        rigid2d.gravityScale = 6.0f;
-        yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.PlayerHPDown();
+        if (!GameManager.Instance.playerdead)
+        {
+            //anim.SetTrigger("Dead");
+            GameManager.Instance.playerdead = true;
+            //Playerは死んだ状態
+            Dead = true;
+            // BGMを停める
+            AudioManager.Instance.StopBGM();
+            // 死亡時SEを鳴らす
+            AudioManager.Instance.PlaySE(AUDIO.SE_DEAD);
+            //物理挙動を一時的になくす
+            rigid2d.velocity = Vector3.zero;
+            rigid2d.isKinematic = true;
+            //Playerのレイヤーをすり抜けるレイヤーに変更
+            gameObject.layer = LayerMask.NameToLayer("dead");
+            //死んだときのアニメーションに設定
+            anim.SetBool("Dead", Dead);
+            yield return new WaitForSeconds(0.1f);
+            //物理挙動を許可する
+            rigid2d.isKinematic = false;
+            //ジャンプ
+            this.rigid2d.AddForce(transform.up * 1000);
+            rigid2d.gravityScale = 6.0f;
+            yield return new WaitForSeconds(1.5f);
+            GameManager.Instance.PlayerHPDown();
+        }
     }
 }

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4285570175403770}
   - component: {fileID: 212670059549031582}
   - component: {fileID: 114572299157623948}
-  - component: {fileID: 61475790409914856}
   m_Layer: 0
   m_Name: BoxInCoin
   m_TagString: Coin
@@ -42,31 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61475790409914856
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1864043403391536}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.025269002, y: 0.088442445}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.7, y: 0.87}
-    newSize: {x: 2.6, y: 2.06}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.8924603, y: 1.1755755}
-  m_EdgeRadius: 0
 --- !u!114 &114572299157623948
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,6 +6,14 @@ TextureImporter:
     21300002: cri_1
     21300004: cri_2
     21300006: cri_3
+    21300008: cri_4
+    21300010: cri_5
+    21300012: cri_6
+    21300014: cri_7
+    21300016: cri_8
+    21300018: cri_9
+    21300020: cri_10
+    21300022: cri_11
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -106,12 +114,12 @@ TextureImporter:
       name: cri_0
       rect:
         serializedVersion: 2
-        x: 71
-        y: 235
-        width: 137
-        height: 109
+        x: 27
+        y: 336
+        width: 53
+        height: 43
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -120,12 +128,12 @@ TextureImporter:
       name: cri_1
       rect:
         serializedVersion: 2
-        x: 299
-        y: 248
-        width: 133
-        height: 117
+        x: 114
+        y: 342
+        width: 52
+        height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,12 +142,12 @@ TextureImporter:
       name: cri_2
       rect:
         serializedVersion: 2
-        x: 58
-        y: 56
-        width: 251
-        height: 112
+        x: 22
+        y: 268
+        width: 98
+        height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -148,10 +156,122 @@ TextureImporter:
       name: cri_3
       rect:
         serializedVersion: 2
-        x: 373
-        y: 44
-        width: 233
-        height: 140
+        x: 142
+        y: 263
+        width: 90
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_4
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 210
+        width: 103
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_5
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 111
+        width: 68
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_6
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 183
+        width: 131
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_7
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 106
+        width: 125
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_8
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 27
+        width: 131
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_9
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 184
+        width: 131
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_10
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 103
+        width: 128
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cri_11
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 19
+        width: 129
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

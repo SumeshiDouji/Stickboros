@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour {
     Text HPtextsc;
     Text CoinTextsc;
     Text AmmoTextsc;
-    Text EDamageTextsc;
 
     // Use this for initialization
     void Start () {
@@ -29,8 +28,6 @@ public class UIManager : MonoBehaviour {
         CoinTextsc = this.CoinTextob.GetComponent<Text>();
         // 残弾数表示のTextのスクリプト取得
         AmmoTextsc = this.AmmoTextob.GetComponent<Text>();
-        // 敵へのダメージ表示のTextのスクリプト取得
-        EDamageTextsc = this.EnemyDamageob.GetComponent<Text>();
     }
 	
 	// Update is called once per frame
@@ -38,7 +35,6 @@ public class UIManager : MonoBehaviour {
         HPtextsc.text = "="+ GameManager.Instance.playerHP.ToString("F0");
         CoinTextsc.text = "=" + GameManager.Instance.coin.ToString("F0");
         AmmoTextsc.text = "=" + playersc.ShotNum.ToString("F0");
-        EDamageTextsc.text = GameManager.Instance.EnemyDamege.ToString("F0");
         //EDamageTextsc.text = ;
     }
     // 一時停止ボタンを押したとき

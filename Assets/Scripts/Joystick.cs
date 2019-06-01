@@ -1,4 +1,5 @@
 ﻿//  Joystick.cs
+//  http://kan-kikuchi.hatenablog.com/entry/uGUI_Joystick_1
 //
 //  Created by kan.kikuchi on 2016.07.19.
 
@@ -11,7 +12,7 @@ using System.Collections.Generic;
 /// <summary>
 /// ジョイスティック
 /// </summary>
-public class Joystick : MonoBehaviour
+public class Joystick : Graphic, IPointerDownHandler, IPointerUpHandler, IEndDragHandler, IDragHandler
 {
 
     //実際に動くスティック部分
@@ -24,6 +25,11 @@ public class Joystick : MonoBehaviour
     [SerializeField]
     [Header("スティックが動く範囲の半径")]
     private float _radius = 100;
+
+    //指を離した時にスティックが中心に戻るか
+    [SerializeField]
+    [Header("指を離した時にスティックが中心に戻るか")]
+    private bool _shouldResetPosition = true;
 
     //現在地(x,y共に値が-1~1の範囲になる)
     [SerializeField]
@@ -44,87 +50,58 @@ public class Joystick : MonoBehaviour
         }
     }
 
-    //初期化されているか
-    public bool IsInitialized
-    {
-        get
-        {
-            //スティックが設定されていれば初期化済み
-            if (_stick != null)
-            {
-                return true;
-            }
-
-            //スティックが子にあるか検索、あれば初期化済み
-            if (transform.Find(STICK_NAME) != null)
-            {
-                _stick = transform.Find(STICK_NAME).gameObject;
-                return true;
-            }
-
-            return false;
-        }
-    }
-
     //=================================================================================
     //初期化
     //=================================================================================
 
-    private void Awake()
+    protected override void Awake()
     {
-        //必要なら初期化する
-        InitIfNeeded();
-
-        //スティックのImageにタッチ判定を取られないようにraycastTargetをfalseに
-        _stick.GetComponent<Image>().raycastTarget = false;
-
-        //スケールを0にして見えないように
-        transform.localScale = Vector3.zero;
-
-        //操作関連のイベントを登録
-        TouchEventHandler.Instance.onBeginPress += OnBeginPress;
-        TouchEventHandler.Instance.onEndPress += OnEndPress;
-        TouchEventHandler.Instance.onEndDrag += OnEndDrag;
-        TouchEventHandler.Instance.onDrag += OnDrag;
+        base.Awake();
+        Init();
     }
 
-    /// <summary>
-    /// 必要なら初期化する
-    /// </summary>
-    public void InitIfNeeded()
+    //初期化
+    private void Init()
     {
-        //既に初期化済みならスルー
-        if (IsInitialized)
+        //スティックを生成する必要があれば生成し、位置を中心に設定
+        CreateStickIfneeded();
+        _stickPosition = Vector3.zero;
+
+        //スティックのImage取得(なければ追加)、タッチ判定を取られないようにraycastTargetをfalseに
+        Image stickImage = _stick.GetComponent<Image>();
+        if (stickImage == null)
+        {
+            stickImage = _stick.AddComponent<Image>();
+        }
+        stickImage.raycastTarget = false;
+
+        //タッチ判定を受け取れるようにRaycastTargetをTrueに
+        raycastTarget = true;
+
+        //タッチ判定をとる範囲は表示されないように透明に
+        color = new Color(0, 0, 0, 0);
+    }
+
+    //スティックを生成する必要があれば生成
+    private void CreateStickIfneeded()
+    {
+        //スティックが設定されていれば終了
+        if (_stick != null)
         {
             return;
         }
 
-        //スティック生成、位置を中心に設定
+        //スティックが子にあるか検索、あれば取得し終了
+        if (transform.Find(STICK_NAME) != null)
+        {
+            _stick = transform.Find(STICK_NAME).gameObject;
+            return;
+        }
+
+        //スティック生成
         _stick = new GameObject(STICK_NAME);
         _stick.transform.SetParent(gameObject.transform);
         _stick.transform.localRotation = Quaternion.identity;
-        _stickPosition = Vector3.zero;
-
-        //スティックにImageセット
-        _stick.AddComponent<Image>();
-    }
-
-    //=================================================================================
-    //計算
-    //=================================================================================
-
-    //タッチされていいる座標をワールド座標で取得
-    private Vector3 GetTouchPointInWorld()
-    {
-        //タップされている位置を画面内の座標に変換
-        Vector2 screenPos = Vector2.zero;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(),
-          new Vector2(Input.mousePosition.x, Input.mousePosition.y),
-          null,
-          out screenPos
-        );
-
-        return screenPos;
     }
 
     //=================================================================================
@@ -132,24 +109,17 @@ public class Joystick : MonoBehaviour
     //=================================================================================
 
     //タップ開始時
-    public void OnBeginPress()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        //スケールを1にして見えるように
-        transform.localScale = Vector3.one;
-
-        //全体をタッチされている場所に移動
-        transform.localPosition = Vector3.zero;
-        transform.localPosition = GetTouchPointInWorld();
-
-        //スティックの位置を中心に
-        _stickPosition = Vector3.zero;
+        //タップした瞬間にドラッグを開始した事にする
+        OnDrag(eventData);
     }
 
     //タップ終了時(ドラッグ終了時には呼ばれない)
-    public void OnEndPress()
+    public void OnPointerUp(PointerEventData eventData)
     {
         //タップした終了した時にドラッグを終了した時と同じ処理をする
-        OnEndDrag();
+        OnEndDrag(eventData);
     }
 
     //=================================================================================
@@ -157,20 +127,27 @@ public class Joystick : MonoBehaviour
     //=================================================================================
 
     //ドラッグ終了時
-    public void OnEndDrag()
+    public void OnEndDrag(PointerEventData eventData)
     {
-        //スティックの位置を中心に
-        _stickPosition = Vector3.zero;
-
-        //スケールを0にして見えないように
-        transform.localScale = Vector3.zero;
+        if (_shouldResetPosition)
+        {
+            //スティックを中心に戻す
+            _stickPosition = Vector3.zero;
+        }
     }
 
     //ドラッグ中
-    public void OnDrag(Vector2 delta)
+    public void OnDrag(PointerEventData eventData)
     {
-        //スティックをタップされている場所に移動
-        _stickPosition = GetTouchPointInWorld();
+        //タップ位置を画面内の座標に変換し、スティックを移動
+        Vector2 screenPos = Vector2.zero;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(),
+          new Vector2(Input.mousePosition.x, Input.mousePosition.y),
+          null,
+          out screenPos
+        );
+
+        _stickPosition = screenPos;
 
         //移動場所が設定した半径を超えてる場合は制限内に抑える
         float currentRadius = Vector3.Distance(Vector3.zero, _stick.transform.localPosition);
